@@ -64,5 +64,5 @@ node_modules/
 # dotenv environment variables file
 .env
 
-admin.json
+adminObj.json
 config.json
