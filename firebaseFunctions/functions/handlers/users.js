@@ -7,7 +7,7 @@ const firebaseConfig = require("../utilities/config");
 const firebase = require('firebase');
 firebase.initializeApp(firebaseConfig);
 
-const { validateSignUpData, validateLoginData } = require('../utilities/vailidators')
+const { validateSignUpData, validateLoginData, reduceUserDetails} = require('../utilities/vailidators')
 
 exports.signUp = (req, res) => {
     const newUser = {
@@ -98,7 +98,23 @@ exports.logIn = (req, res) => {
         })
  }
 
- // install busboy
+ // Add User Details
+ exports.addUserDetails = (req, res) => {
+    let userDetails = reduceUserDetails(req.body)
+
+    db.doc(`/users/${req.user.handle}`).update(userDetails)
+        .then(() => {
+            return res.json({message: "Details added successfully"})
+        })
+        .catch(err => {
+            console.error(err)
+            return res.status(500).json({error: err.code})
+        })
+ }
+
+
+ // npm install --save busboy
+ // Upload image
  exports.uploadImage = (req, res) => {
     const BusBoy = require('busboy');
     const path = require('path');
