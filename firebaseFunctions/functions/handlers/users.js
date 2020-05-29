@@ -161,3 +161,26 @@ exports.logIn = (req, res) => {
     })
     busboy.end(req.rawBody);
  }
+
+ //Get own user Details
+ exports.getAuthenticatedUser = (req, res) => {
+     let userData = {};
+     db.doc(`/users/${req.user.handle}`).get()
+        .then(doc => {
+            if (doc.exists) {
+                userData.credentials = doc.data();
+                return db.collection('likes').where('userHandle', '==', req.user.handle).get()
+            }
+        })
+        .then(data => {
+            userData.likes = []
+            data.forEach(doc => {
+                userData.likes.push(doc.data());
+            })
+            return res.json(userData)
+        })
+        .catch(err => {
+            console.error(err)
+            return res.json(500).json({error: err.code})
+        })
+ }
