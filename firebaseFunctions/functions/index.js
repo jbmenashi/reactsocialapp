@@ -3,7 +3,7 @@ const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
 
-const { getAllPosts, createPost, getPost } = require('./handlers/posts');
+const { getAllPosts, createPost, getPost, commentOnPost } = require('./handlers/posts');
 const { signUp, logIn, uploadImage, addUserDetails, getAuthenticatedUser } = require('./handlers/users');
 const { FBAuth } = require('./utilities/fbAuth')
 
@@ -11,7 +11,7 @@ const { FBAuth } = require('./utilities/fbAuth')
 app.get('/posts', getAllPosts)
 app.post('/post', FBAuth, createPost)
 app.get('/post/:postId', getPost)
-// 
+app.post('/post/:postId/comment', FBAuth, commentOnPost)
 
 // User Posts
 app.post('/signup', signUp)

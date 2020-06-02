@@ -20,7 +20,8 @@ exports.FBAuth = (req, res, next) => {
             // return db.collection('users').find(user => user.userId === req.user.uid).get() - this doesn't work
         })
         .then(data => {
-            req.user.handle = data.docs[0].data().handle
+            req.user.handle = data.docs[0].data().handle,
+            req.user.imageUrl = data.docs[0].data().imageUrl
             return next();
         })
         .catch(err => {
