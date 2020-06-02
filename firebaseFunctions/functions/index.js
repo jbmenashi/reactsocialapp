@@ -3,13 +3,15 @@ const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
 
-const { getAllPosts, createPost } = require('./handlers/posts');
+const { getAllPosts, createPost, getPost } = require('./handlers/posts');
 const { signUp, logIn, uploadImage, addUserDetails, getAuthenticatedUser } = require('./handlers/users');
 const { FBAuth } = require('./utilities/fbAuth')
 
 // Post Routes
 app.get('/posts', getAllPosts)
 app.post('/post', FBAuth, createPost)
+app.get('/post/:postId', getPost)
+// 
 
 // User Posts
 app.post('/signup', signUp)
